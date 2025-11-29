@@ -1,4 +1,5 @@
 #include<iostream>
+#include <cstring>
 using namespace std;
 
 #include "stack.h"
@@ -13,26 +14,46 @@ int main(int argc, char **argv){
  printf("Checking the parentheses in argv arguments\n");
 
    */
+for(i = 1; i < argc; i++)
+    {
+          Stack s; //change node to char--->***
+          bool balanced = true;
+          char c;
 
-  for(i=1;i<argc;i++){
-    for(j=0;j<strlen(argv[i]);j++){
-      Stack s;
-      if(argv[i][j]=='[' || argv[i][j]=='{') s.push(argv[i][j]);
-      else{
-        if(argv[i][j]=='[' || argv[i][j]=='{'){
-          char x=s.pop();
+      for(j = 0; j < strlen(argv[i]); j++)
+      {
+          c = (argv[i][j]);
+
+        if(c =='[' || c == '{') //check opening
+        s.push(c);
+
+        else if(c ==']' || c == '}') //check closing
+      {
+        int topValue = s.pop(); //in case of lone } or ]
+        if (topValue == -1)
+        {
+          balanced = false;
+          break;
         }
+
+          char topChar = (char)topValue;
+        if (c == '}' && topChar != '{') balanced = false;
+        if (c == ']' && topChar != '[') balanced = false;
+        if (!balanced)
+          break;
       }
-       // Use stack to help with the parentheses
-
-
-
-
-
     }
+      
+      int leftover = s.pop();
+      if (leftover != -1)
+    balanced = false;
 
+    if (balanced)
+      cout << argv[i] << ": Balanced" << endl << endl;
+    else
+      cout << argv[i] << ": Not Balanced" << endl << endl;
+    
   }
-     
 
 
 
